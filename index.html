@@ -13,15 +13,16 @@
 }
 
 :root {
-    --rose:    #ff8fa3;
-    --rose-d:  #c9607a;
-    --rose-g:  rgba(255,143,163,0.38);
-    --rr:      255,143,163;
-    --purple:  #a78bfa;
-    --text:    #ffffff;
-    --muted:   #8e8ea8;
-    --card:    rgba(255,255,255,0.035);
-    --border:  rgba(255,255,255,0.07);
+    --rose:   #ff7096;
+    --rose2:  #ff9ab5;
+    --roseG:  rgba(255,112,150,0.4);
+    --rr:     255,112,150;
+    --purple: #b59eff;
+    --purpG:  rgba(181,158,255,0.35);
+    --text:   #f0eaf5;
+    --muted:  #8a8aaa;
+    --cardBg: rgba(255,255,255,0.032);
+    --border: rgba(255,255,255,0.065);
 }
 
 body {
@@ -29,9 +30,9 @@ body {
     color: var(--text);
     height: 100dvh;
     background:
-        radial-gradient(ellipse at 18% 12%, #1c0932 0%, transparent 58%),
-        radial-gradient(ellipse at 82% 88%, #0d1038 0%, transparent 58%),
-        #050210;
+        radial-gradient(ellipse at 15% 10%, #250a38 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 90%, #0d1040 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, #0e051a 0%, #030108 100%);
     overflow: hidden;
     position: relative;
 }
@@ -40,27 +41,23 @@ body {
 body::before {
     content: ""; position: fixed; inset: 0;
     background: url("https://www.transparenttextures.com/patterns/noise.png");
-    opacity: 0.032; pointer-events: none; z-index: 0;
+    opacity: 0.030; pointer-events: none; z-index: 0;
 }
 
-/* ambient breathe */
+/* dual ambient glow */
 body::after {
     content: ""; position: fixed; inset: 0;
     background:
-        radial-gradient(ellipse at 22% 28%, rgba(var(--rr),0.055) 0%, transparent 52%),
-        radial-gradient(ellipse at 78% 72%, rgba(167,139,250,0.045) 0%, transparent 52%);
-    animation: ambient 16s ease-in-out infinite alternate;
+        radial-gradient(ellipse at 18% 25%, rgba(var(--rr),0.055) 0%, transparent 48%),
+        radial-gradient(ellipse at 82% 75%, rgba(181,158,255,0.045) 0%, transparent 48%);
+    animation: ambientPulse 18s ease-in-out infinite alternate;
     pointer-events: none; z-index: 0;
 }
-@keyframes ambient {
-    from { opacity: 0.55; }
-    to   { opacity: 1; }
-}
+@keyframes ambientPulse { from { opacity: 0.5; } to { opacity: 1; } }
 
-/* ── canvas layers ── */
+/* ── CANVAS LAYERS ── */
 #starCvs, #bgCvs {
-    position: fixed; inset: 0;
-    pointer-events: none; display: block;
+    position: fixed; inset: 0; pointer-events: none; display: block;
 }
 #starCvs { z-index: 1; }
 #bgCvs   { z-index: 2; }
@@ -71,59 +68,59 @@ body::after {
 }
 .petal  { position: absolute; top: -8%; animation: petalFall linear infinite; }
 .fheart { position: absolute; bottom: -8%; animation: heartRise linear infinite; }
-@keyframes petalFall  { to { transform: translateY(115vh) rotate(380deg); opacity: 0; } }
-@keyframes heartRise  { to { transform: translateY(-115vh) scale(0.55); opacity: 0; } }
+@keyframes petalFall  { to { transform: translateY(116vh) rotate(390deg); opacity: 0; } }
+@keyframes heartRise  { to { transform: translateY(-116vh) scale(0.5); opacity: 0; } }
 
-/* ── page container ── */
+/* ── PAGE WRAP ── */
 .wrap {
     position: relative; z-index: 10;
     width: 100%; max-width: 540px; height: 100dvh;
     margin: 0 auto;
     display: flex; flex-direction: column;
-    padding: calc(env(safe-area-inset-top, 0px) + 22px) 13px
+    padding: calc(env(safe-area-inset-top, 0px) + 20px) 13px
              calc(env(safe-area-inset-bottom, 0px) + 14px);
-    animation: pageIn 0.65s cubic-bezier(0.34,1.2,0.64,1) both;
+    animation: pageIn 0.7s cubic-bezier(0.34,1.2,0.64,1) both;
 }
 @keyframes pageIn {
-    from { opacity: 0; transform: translateY(14px); }
+    from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── header ── */
+/* ── HEADER ── */
 .header {
     display: flex; justify-content: space-between; align-items: center;
     padding: 9px 14px;
-    background: var(--card);
-    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    background: rgba(255,255,255,0.028);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
     border-radius: 14px; border: 1px solid var(--border);
     flex-shrink: 0; margin-bottom: 10px;
 }
 .hleft { display: flex; align-items: center; gap: 8px; }
-.online-dot {
+.dot-live {
     width: 8px; height: 8px; border-radius: 50%;
     background: #4ade80; box-shadow: 0 0 8px #4ade80;
     animation: dotBeat 2.4s ease-in-out infinite;
 }
 @keyframes dotBeat {
     0%,100% { transform: scale(1); opacity: 1; }
-    50%      { transform: scale(0.7); opacity: 0.45; }
+    50%      { transform: scale(0.68); opacity: 0.42; }
 }
 .hname {
     font-size: 13px; font-weight: 700;
-    background: linear-gradient(135deg, #fff 30%, #ffb3c1);
+    background: linear-gradient(130deg, #fff 25%, var(--rose2));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 
-/* ── audio button ── */
+/* ── AUDIO BUTTON ── */
 #audioBtn {
     display: flex; align-items: center; gap: 6px;
-    padding: 7px 12px; border-radius: 10px;
-    border: 1.5px solid rgba(var(--rr),0.38);
+    padding: 7px 13px; border-radius: 11px;
+    border: 1.5px solid rgba(var(--rr),0.36);
     background: rgba(var(--rr),0.07);
     color: #fff; font-size: 11px; font-weight: 600;
     font-family: 'Inter', sans-serif;
     cursor: pointer; outline: none; touch-action: manipulation;
-    transition: all 0.28s ease;
+    transition: border-color 0.3s ease, background 0.3s ease;
 }
 #audioBtn:active { transform: scale(0.9); }
 #audioBtn.on {
@@ -131,123 +128,139 @@ body::after {
     animation: btnGlow 2.2s ease-in-out infinite;
 }
 @keyframes btnGlow {
-    0%,100% { box-shadow: 0 0 8px var(--rose-g); }
-    50%      { box-shadow: 0 0 20px var(--rose-g), 0 0 36px rgba(var(--rr),0.14); }
+    0%,100% { box-shadow: 0 0 8px var(--roseG); }
+    50%      { box-shadow: 0 0 22px var(--roseG), 0 0 40px rgba(var(--rr),0.12); }
 }
 .mini-bars { display: flex; align-items: flex-end; gap: 2px; height: 11px; }
-.mb { width: 2px; border-radius: 1px; background: currentColor; }
-.mb:nth-child(1) { height: 4px;  opacity: 0.32; }
-.mb:nth-child(2) { height: 9px;  opacity: 0.32; }
-.mb:nth-child(3) { height: 6px;  opacity: 0.32; }
-.mb.on { opacity: 1; animation: mbWave 0.7s ease-in-out infinite; }
+.mb { width: 2px; border-radius: 1px; background: currentColor; opacity: 0.32; }
+.mb:nth-child(1) { height: 4px; }
+.mb:nth-child(2) { height: 9px; }
+.mb:nth-child(3) { height: 6px; }
+.mb.on { opacity: 1; animation: mbA 0.7s ease-in-out infinite; }
 .mb:nth-child(2).on { animation-delay: 0.12s; }
 .mb:nth-child(3).on { animation-delay: 0.24s; }
-@keyframes mbWave {
-    0%,100% { transform: scaleY(0.38); }
-    50%      { transform: scaleY(1.55); }
-}
+@keyframes mbA { 0%,100%{transform:scaleY(0.35);} 50%{transform:scaleY(1.6);} }
 
-/* ── card ── */
+/* ── CARD ── */
 .card {
     flex: 1; display: flex; flex-direction: column;
-    background: var(--card);
-    backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
-    border: 1px solid var(--border); border-radius: 22px;
+    background: var(--cardBg);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 22px;
     padding: 22px 20px 16px;
-    box-shadow: 0 22px 64px rgba(0,0,0,0.65),
-                inset 0 1px 0 rgba(255,255,255,0.07);
+    box-shadow:
+        0 24px 70px rgba(0,0,0,0.7),
+        inset 0 1px 0 rgba(255,255,255,0.07),
+        0 0 0 1px rgba(var(--rr),0.06),
+        0 0 40px rgba(var(--rr),0.04);
     position: relative; overflow: visible;
+    animation: cardBreathing 7s ease-in-out infinite;
 }
+@keyframes cardBreathing {
+    0%,100% {
+        box-shadow: 0 24px 70px rgba(0,0,0,0.7),
+                    inset 0 1px 0 rgba(255,255,255,0.07),
+                    0 0 0 1px rgba(var(--rr),0.06),
+                    0 0 40px rgba(var(--rr),0.04);
+    }
+    50% {
+        box-shadow: 0 24px 70px rgba(0,0,0,0.7),
+                    inset 0 1px 0 rgba(255,255,255,0.07),
+                    0 0 0 1px rgba(var(--rr),0.18),
+                    0 0 65px rgba(var(--rr),0.1),
+                    0 0 90px rgba(181,158,255,0.06);
+    }
+}
+/* top shimmer line */
 .card::before {
     content: ""; position: absolute;
-    top: 0; left: 18px; right: 18px; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(var(--rr),0.28), transparent);
-    border-radius: 1px;
+    top: 0; left: 22px; right: 22px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(var(--rr),0.35), rgba(181,158,255,0.25), transparent);
+    border-radius: 1px; animation: topShimmer 4s ease-in-out infinite;
+}
+@keyframes topShimmer {
+    0%,100% { opacity: 0.45; }
+    50%      { opacity: 1; }
 }
 
-/* ── initial state ── */
+/* ── INITIAL STATE ── */
 #init {
     display: flex; flex-direction: column; flex: 1;
-    animation: fadeUp 0.5s ease both;
+    animation: fadeSlideUp 0.5s ease both;
 }
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(10px); }
+@keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(12px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
 .ctitle {
-    font-size: clamp(15.5px, 4.6vw, 18.5px); font-weight: 700;
-    background: linear-gradient(135deg, #fff 40%, #ffb3c1);
+    font-size: clamp(15px, 4.4vw, 18px); font-weight: 700;
+    background: linear-gradient(130deg, #fff 35%, var(--rose2) 80%, var(--purple));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     margin-bottom: 11px; flex-shrink: 0;
 }
 .cmsg {
-    font-size: clamp(12.5px, 3.5vw, 14px); line-height: 1.78;
-    color: var(--muted); flex-shrink: 0;
+    font-size: clamp(12.5px, 3.4vw, 14px);
+    line-height: 1.78; color: var(--muted); flex-shrink: 0;
 }
-.cmsg strong { color: #f0eaf5; font-weight: 600; }
+.cmsg strong { color: #e8e0f0; font-weight: 600; }
 
-/* ── spectrum ── */
+/* ── CIRCULAR SPECTRUM ── */
 #specCvs {
     display: block; width: 100%;
-    flex: 1; min-height: 64px; max-height: 150px;
-    margin: 12px 0 4px; border-radius: 8px;
+    flex: 1; min-height: 120px; max-height: 165px;
+    margin: 10px 0 4px;
 }
 
-/* ── buttons ── */
+/* ── BUTTON SECTION ── */
 .btn-section { flex-shrink: 0; }
 
-/* Fixed-height row; both buttons absolutely positioned */
+/* Row: fixed height, both buttons absolutely positioned */
 .btn-row {
-    position: relative;
-    height: 52px;
-    margin-bottom: 7px;
-    /* overflow visible so buttons can slide outside row bounds */
-    overflow: visible;
+    position: relative; height: 52px;
+    margin-bottom: 6px;
+    overflow: visible; /* buttons may slide outside */
 }
 
 .btn {
-    position: absolute;
-    top: 2px; height: 48px;
-    padding: 0 24px;
-    border-radius: 24px;
-    font-size: clamp(12.5px, 3.4vw, 13.5px); font-weight: 600;
+    position: absolute; top: 2px; height: 48px;
+    padding: 0 26px; border-radius: 24px;
+    font-size: clamp(12.5px, 3.3vw, 13.5px); font-weight: 600;
     font-family: 'Inter', sans-serif;
     cursor: pointer; border: none; outline: none;
     touch-action: manipulation; white-space: nowrap;
 }
 
-/* Accept — centered, stays put */
+/* ACCEPT — centered, never moves */
 .btn-accept {
     left: 50%; transform: translateX(-50%);
-    background: linear-gradient(135deg, var(--rose), var(--rose-d));
+    background: linear-gradient(135deg, var(--rose), #c94070);
     color: #fff;
     box-shadow: 0 6px 22px rgba(var(--rr),0.32);
     z-index: 5; transition: box-shadow 0.3s ease;
 }
-.btn-accept:active { filter: brightness(0.9); }
-.btn-accept.glowing { animation: acceptPulse 2.6s ease-in-out infinite; }
-@keyframes acceptPulse {
+.btn-accept:active { filter: brightness(0.88); }
+.btn-accept.glowing { animation: acceptGlow 2.5s ease-in-out infinite; }
+@keyframes acceptGlow {
     0%,100% { box-shadow: 0 6px 22px rgba(var(--rr),0.32); transform: translateX(-50%) scale(1); }
-    50%      { box-shadow: 0 10px 34px rgba(var(--rr),0.62); transform: translateX(-50%) scale(1.03); }
+    50%      { box-shadow: 0 10px 36px rgba(var(--rr),0.68), 0 0 55px rgba(var(--rr),0.22); transform: translateX(-50%) scale(1.04); }
 }
 
-/* Reject — slides left/right via CSS `left` transition */
+/* REJECT — slides left/right via CSS left + smooth spring transition */
 .btn-reject {
     background: rgba(255,255,255,0.055);
     color: var(--muted);
-    border: 1.5px solid rgba(255,255,255,0.10);
-    z-index: 4;
-    transition: left 0.26s cubic-bezier(0.34, 1.38, 0.64, 1),
-                opacity 0.2s ease;
-    user-select: none;
+    border: 1.5px solid rgba(255,255,255,0.09);
+    z-index: 4; user-select: none;
+    transition: left 0.28s cubic-bezier(0.34, 1.42, 0.64, 1),
+                opacity 0.22s ease;
 }
 
-/* ── hint / tease ── */
+/* ── HINT & TEASE ── */
 .hint {
     font-size: 11px; color: var(--rose); text-align: center;
-    min-height: 16px;
-    opacity: 0; transform: translateY(4px);
+    min-height: 16px; opacity: 0; transform: translateY(5px);
     transition: opacity 0.35s ease, transform 0.35s ease;
 }
 .hint.on { opacity: 0.82; transform: translateY(0); }
@@ -255,56 +268,65 @@ body::after {
 .tease {
     font-size: 12px; color: var(--muted); text-align: center;
     min-height: 16px; margin-top: 4px;
-    opacity: 0; transition: opacity 0.28s ease;
+    opacity: 0; transform: translateY(4px);
+    transition: opacity 0.28s ease, transform 0.28s ease;
 }
-.tease.on { opacity: 1; }
+.tease.on { opacity: 1; transform: translateY(0); }
 
-/* ── footer (shared) ── */
+/* ── FOOTER — animated shimmer ── */
 .footer {
-    font-size: 10px; color: rgba(255,255,255,0.2);
-    text-align: center; letter-spacing: 0.5px;
-    margin-top: 10px; flex-shrink: 0;
+    font-size: 11px; font-weight: 500; letter-spacing: 0.6px;
+    text-align: center; margin-top: 10px; flex-shrink: 0;
+    background: linear-gradient(90deg,
+        rgba(var(--rr),0.75),
+        rgba(255,255,255,0.88),
+        rgba(181,158,255,0.85),
+        rgba(var(--rr),0.75));
+    background-size: 280% 100%;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    animation: footerShimmer 5s ease-in-out infinite;
+}
+@keyframes footerShimmer {
+    0%,100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
 }
 
-/* ── success state ── */
+/* ── SUCCESS STATE ── */
 #success {
     display: none; flex-direction: column; align-items: center;
-    justify-content: center; gap: 12px; flex: 1;
+    justify-content: center; gap: 14px; flex: 1;
 }
 #success.on {
     display: flex;
-    animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+    animation: popIn 0.55s cubic-bezier(0.34,1.56,0.64,1) both;
 }
 @keyframes popIn {
-    from { opacity: 0; transform: scale(0.84); }
-    to   { opacity: 1; transform: scale(1); }
+    from { opacity: 0; transform: scale(0.82) translateY(12px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
 }
 .s-title {
     font-family: 'Dancing Script', cursive;
-    font-size: clamp(28px, 8vw, 38px); color: #fff;
-    text-shadow: 0 4px 22px rgba(var(--rr),0.55);
+    font-size: clamp(28px, 8vw, 40px); color: #fff;
+    text-shadow: 0 4px 28px rgba(var(--rr),0.6), 0 0 60px rgba(181,158,255,0.25);
 }
 .s-msg {
-    font-size: clamp(12.5px, 3.5vw, 14px); line-height: 1.8;
-    color: var(--muted); text-align: center;
+    font-size: clamp(12.5px, 3.4vw, 14px); line-height: 1.82;
+    color: var(--muted); text-align: center; max-width: 340px;
 }
-.s-msg strong { color: #fff; }
+.s-msg strong { color: #ece5f5; }
 
-/* ── spark ── */
+/* ── SPARKLE ── */
 @keyframes sparkOut {
-    0%   { transform: translate(0,0) scale(1.5); opacity: 1; }
+    0%   { transform: translate(0,0) scale(1.6); opacity: 1; }
     100% { transform: translate(var(--dx),var(--dy)) scale(0); opacity: 0; }
 }
-.spark {
-    position: fixed; pointer-events: none; z-index: 999;
-    animation: sparkOut 0.6s ease-out forwards;
-}
+.spark { position: fixed; pointer-events: none; z-index: 999; animation: sparkOut 0.62s ease-out forwards; }
 
-/* ── responsive ── */
+/* ── RESPONSIVE ── */
 @media (max-width: 380px) {
-    .wrap { padding-left: 9px; padding-right: 9px; }
+    .wrap { padding-left: 8px; padding-right: 8px; }
     .card { padding: 16px 12px 12px; }
-    .btn  { padding: 0 16px; font-size: 12px; }
+    .btn  { padding: 0 18px; font-size: 12px; }
 }
 
 </style>
@@ -318,7 +340,7 @@ body::after {
 <div class="wrap">
     <div class="header">
         <div class="hleft">
-            <div class="online-dot"></div>
+            <div class="dot-live"></div>
             <span class="hname">AlphaCyber4rt ✨</span>
         </div>
         <button type="button" id="audioBtn" onclick="toggleAudio()">
@@ -331,7 +353,7 @@ body::after {
         </button>
     </div>
 
-    <div class="card">
+    <div class="card" id="mainCard">
 
         <div id="init">
             <div class="ctitle">🌙 Hai Bee…</div>
@@ -342,7 +364,7 @@ body::after {
                 (Tenang… pilihannya cuma di hati kamu kok.)
             </div>
 
-            <!-- Audio Spectrum Visualizer -->
+            <!-- Circular Audio Spectrum -->
             <canvas id="specCvs"></canvas>
 
             <div class="btn-section">
@@ -370,22 +392,20 @@ body::after {
        loop preload="none" crossorigin="anonymous"></audio>
 
 <script>
-/* ══════════════════════════════════════
-   1. STARS
-══════════════════════════════════════ */
+/* ════════════════════════════════════════════
+   1. TWINKLING STARS
+════════════════════════════════════════════ */
 const starCvs = document.getElementById('starCvs');
 const sCtx    = starCvs.getContext('2d');
-function rszStar() { starCvs.width = innerWidth; starCvs.height = innerHeight; }
-rszStar();
-addEventListener('resize', rszStar, { passive: true });
+function rszS() { starCvs.width = innerWidth; starCvs.height = innerHeight; }
+rszS(); addEventListener('resize', rszS, { passive: true });
 
-const STARS = Array.from({ length: 130 }, () => ({
-    x:    Math.random() * innerWidth,
-    y:    Math.random() * innerHeight,
-    r:    Math.random() * 1.4 + 0.15,
-    ph:   Math.random() * Math.PI * 2,
-    spd:  Math.random() * 0.022 + 0.006,
-    max:  Math.random() * 0.52 + 0.18,
+const STARS = Array.from({ length: 140 }, () => ({
+    x: Math.random() * innerWidth, y: Math.random() * innerHeight,
+    r: Math.random() * 1.45 + 0.14,
+    ph: Math.random() * Math.PI * 2,
+    spd: Math.random() * 0.02 + 0.005,
+    max: Math.random() * 0.55 + 0.18,
 }));
 
 (function starLoop() {
@@ -394,55 +414,47 @@ const STARS = Array.from({ length: 130 }, () => ({
         s.ph += s.spd;
         const op = ((Math.sin(s.ph) + 1) / 2) * s.max;
         sCtx.save();
-        sCtx.globalAlpha = op;
-        sCtx.fillStyle   = '#ffffff';
-        sCtx.shadowBlur  = 6;
-        sCtx.shadowColor = 'rgba(255,175,215,0.8)';
-        sCtx.beginPath();
-        sCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-        sCtx.fill();
+        sCtx.globalAlpha = op; sCtx.fillStyle = '#fff';
+        sCtx.shadowBlur = 7; sCtx.shadowColor = 'rgba(255,175,215,0.9)';
+        sCtx.beginPath(); sCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2); sCtx.fill();
         sCtx.restore();
     });
     requestAnimationFrame(starLoop);
 })();
 
-/* ══════════════════════════════════════
-   2. FLOATING PARTICLES
-══════════════════════════════════════ */
+/* ════════════════════════════════════════════
+   2. FLOATING DUST PARTICLES
+════════════════════════════════════════════ */
 const bgCvs = document.getElementById('bgCvs');
 const bCtx  = bgCvs.getContext('2d');
-function rszBg() { bgCvs.width = innerWidth; bgCvs.height = innerHeight; }
-rszBg();
-addEventListener('resize', rszBg, { passive: true });
+function rszB() { bgCvs.width = innerWidth; bgCvs.height = innerHeight; }
+rszB(); addEventListener('resize', rszB, { passive: true });
 
-const DOTS = Array.from({ length: 65 }, () => ({
-    x:  Math.random() * innerWidth,
-    y:  Math.random() * innerHeight,
-    r:  Math.random() * 1.7 + 0.35,
-    dy: -(Math.random() * 0.28 + 0.07),
+const DUST = Array.from({ length: 70 }, () => ({
+    x: Math.random() * innerWidth, y: Math.random() * innerHeight,
+    r: Math.random() * 1.6 + 0.3,
+    dy: -(Math.random() * 0.26 + 0.06),
     ph: Math.random() * Math.PI * 2,
 }));
 
-(function dotLoop() {
+(function dustLoop() {
     bCtx.clearRect(0, 0, bgCvs.width, bgCvs.height);
-    DOTS.forEach(p => {
+    DUST.forEach(p => {
         p.ph += 0.009; p.y += p.dy;
         if (p.y < -10) { p.y = bgCvs.height + 10; p.x = Math.random() * bgCvs.width; }
-        const op = 0.18 + Math.sin(p.ph) * 0.12;
-        bCtx.beginPath();
-        bCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        bCtx.fillStyle = `rgba(255,155,200,${Math.max(0, op).toFixed(2)})`;
-        bCtx.fill();
+        const op = 0.16 + Math.sin(p.ph) * 0.11;
+        bCtx.beginPath(); bCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        bCtx.fillStyle = `rgba(255,150,195,${Math.max(0, op).toFixed(2)})`; bCtx.fill();
     });
-    requestAnimationFrame(dotLoop);
+    requestAnimationFrame(dustLoop);
 })();
 
-/* ══════════════════════════════════════
-   3. ROMANCE LAYER
-══════════════════════════════════════ */
-const rl      = document.getElementById('romLayer');
-const PETALS  = ['🌹','🌸','🌷','✿','🌺'];
-const HICONS  = ['💖','💕','❤️','🩷','💗'];
+/* ════════════════════════════════════════════
+   3. ROMANCE LAYER (petals + hearts)
+════════════════════════════════════════════ */
+const rl     = document.getElementById('romLayer');
+const PETALS = ['🌹','🌸','🌷','✿','🌺'];
+const HEARTS = ['💖','💕','❤️','🩷','💗'];
 
 function spawnFloat(cls, icons) {
     const el = document.createElement('div');
@@ -450,23 +462,23 @@ function spawnFloat(cls, icons) {
     el.textContent = icons[Math.floor(Math.random() * icons.length)];
     el.style.cssText = `
         left:${Math.random()*100}vw;
-        font-size:${Math.random()*8+10}px;
-        opacity:${Math.random()*0.32+0.42};
-        animation-duration:${Math.random()*7+7}s;
+        font-size:${Math.random()*8+9}px;
+        opacity:${(Math.random()*0.3+0.4).toFixed(2)};
+        animation-duration:${Math.random()*8+8}s;
         animation-delay:${Math.random()*2}s;
     `;
     rl.appendChild(el);
-    setTimeout(() => el.remove(), 16000);
+    setTimeout(() => el.remove(), 17000);
 }
-setInterval(() => spawnFloat('petal',  PETALS), 750);
-setInterval(() => spawnFloat('fheart', HICONS), 1050);
+setInterval(() => spawnFloat('petal',  PETALS), 800);
+setInterval(() => spawnFloat('fheart', HEARTS), 1100);
 
-/* ══════════════════════════════════════
-   4. AUDIO + WEB AUDIO SPECTRUM
-══════════════════════════════════════ */
-const audio       = document.getElementById('audio');
-const audioLabel  = document.getElementById('audioLabel');
+/* ════════════════════════════════════════════
+   4. AUDIO + WEB AUDIO API
+════════════════════════════════════════════ */
+const audioEl     = document.getElementById('audio');
 const audioBtnEl  = document.getElementById('audioBtn');
+const audioLblEl  = document.getElementById('audioLabel');
 let audioPlaying  = false;
 let actxReady     = false;
 let analyser      = null;
@@ -477,162 +489,206 @@ function initActx() {
     try {
         const actx = new (window.AudioContext || window.webkitAudioContext)();
         analyser = actx.createAnalyser();
-        analyser.fftSize = 64;
-        analyser.smoothingTimeConstant = 0.8;
-        const src = actx.createMediaElementSource(audio);
-        src.connect(analyser);
-        analyser.connect(actx.destination);
+        analyser.fftSize = 128;
+        analyser.smoothingTimeConstant = 0.82;
+        const src = actx.createMediaElementSource(audioEl);
+        src.connect(analyser); analyser.connect(actx.destination);
         specData  = new Uint8Array(analyser.frequencyBinCount);
         actxReady = true;
-        audio.addEventListener('play', () => {
+        audioEl.addEventListener('play', () => {
             if (actx.state === 'suspended') actx.resume();
         });
-    } catch (e) { /* graceful fallback */ }
+    } catch (e) { /* graceful no-op */ }
 }
 
 async function toggleAudio() {
     initActx();
-    if (analyser && analyser.context.state === 'suspended') {
-        await analyser.context.resume();
-    }
+    if (analyser && analyser.context.state === 'suspended') await analyser.context.resume();
     if (audioPlaying) {
-        audio.pause();
-        audioPlaying = false;
-        audioLabel.textContent = '🎵 PLAY';
+        audioEl.pause(); audioPlaying = false;
+        audioLblEl.textContent = '🎵 PLAY';
         audioBtnEl.classList.remove('on');
         [1,2,3].forEach(i => document.getElementById('mb'+i).classList.remove('on'));
     } else {
-        audio.volume = 0.38;
-        audio.play()
+        audioEl.volume = 0.38;
+        audioEl.play()
             .then(() => {
                 audioPlaying = true;
-                audioLabel.textContent = '⏸ PAUSE';
+                audioLblEl.textContent = '⏸ PAUSE';
                 audioBtnEl.classList.add('on');
                 [1,2,3].forEach(i => document.getElementById('mb'+i).classList.add('on'));
             })
             .catch(() => {
-                audioLabel.textContent = '⚠️ TAP';
-                setTimeout(() => audioLabel.textContent = '🎵 PLAY', 1800);
+                audioLblEl.textContent = '⚠️ TAP';
+                setTimeout(() => audioLblEl.textContent = '🎵 PLAY', 1800);
             });
     }
 }
 
-/* ── Spectrum Canvas ── */
+/* ════════════════════════════════════════════
+   5. CIRCULAR AUDIO SPECTRUM VISUALIZER
+════════════════════════════════════════════ */
 const specCvs = document.getElementById('specCvs');
 const spCtx   = specCvs.getContext('2d');
-let specW = 0, specH = 0, idlePh = 0;
-const BARS = 28;
+let specW = 0, specH = 0;
+let idlePh = 0, specRot = 0;
+let prevAvg = 0;
+const N_BARS = 60;
 
+/* resize — use physical pixels for sharpness */
 function rszSpec() {
-    const r = specCvs.getBoundingClientRect();
-    specW = specCvs.width  = Math.round(r.width  * devicePixelRatio);
-    specH = specCvs.height = Math.round(r.height * devicePixelRatio);
-    spCtx.scale(devicePixelRatio, devicePixelRatio);
-    specW = r.width; specH = r.height;
+    const rect = specCvs.getBoundingClientRect();
+    const dpr  = Math.min(devicePixelRatio || 1, 2);
+    specCvs.width  = Math.round(rect.width  * dpr);
+    specCvs.height = Math.round(rect.height * dpr);
+    specW = rect.width;
+    specH = rect.height;
+    spCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
-function rBar(ctx, x, y, w, h, r) {
-    /* rounded top corners only */
-    r = Math.min(r, w / 2, h);
-    ctx.beginPath();
-    ctx.moveTo(x + r, y);
-    ctx.lineTo(x + w - r, y);
-    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-    ctx.lineTo(x + w, y + h);
-    ctx.lineTo(x, y + h);
-    ctx.lineTo(x, y + r);
-    ctx.quadraticCurveTo(x, y, x + r, y);
-    ctx.closePath();
-    ctx.fill();
-}
-
+/* draw one frame */
 (function specLoop() {
-    if (!specW || !specH) {
-        requestAnimationFrame(specLoop);
-        return;
-    }
+    if (!specW || !specH) { requestAnimationFrame(specLoop); return; }
 
     spCtx.clearRect(0, 0, specW, specH);
 
-    /* gather values */
-    const vals = new Array(BARS);
+    const CX = specW / 2, CY = specH / 2;
+    const RMIN = Math.min(specW, specH) * 0.2;
+    const RMAX = Math.min(specW, specH) * 0.46;
+
+    /* ── gather frequency data ── */
+    const vals = new Float32Array(N_BARS);
+    let sumV = 0;
     if (audioPlaying && analyser && specData) {
         analyser.getByteFrequencyData(specData);
-        const half = Math.floor(BARS / 2);
-        for (let i = 0; i < BARS; i++) {
-            /* mirror: left side reads reversed, right side reads forward */
-            const rel = i < half
-                ? (half - 1 - i) / half
-                : (i - half) / half;
-            const bin = Math.floor(rel * (specData.length * 0.65));
+        const half = Math.floor(N_BARS / 2);
+        for (let i = 0; i < N_BARS; i++) {
+            /* mirror: left half = reversed low-freq, right half = forward low-freq */
+            const rel = i < half ? (half - 1 - i) / half : (i - half) / half;
+            const bin = Math.floor(rel * specData.length * 0.60);
             vals[i] = specData[Math.min(bin, specData.length - 1)] / 255;
+            sumV   += vals[i];
         }
+        specRot += 0.004;
     } else {
-        idlePh += 0.038;
-        for (let i = 0; i < BARS; i++) {
-            const rel = (i / (BARS - 1)) * 2 - 1; /* -1 to 1 */
-            const env = Math.pow(1 - Math.abs(rel), 1.5);
-            vals[i] = 0.055 + 0.085 * env * (0.65 + 0.35 * Math.sin(idlePh + i * 0.38));
+        idlePh += 0.035;
+        specRot += 0.010; /* gentle idle rotation */
+        for (let i = 0; i < N_BARS; i++) {
+            const a = (i / N_BARS) * Math.PI * 2;
+            vals[i] = 0.04 + 0.055 * (0.6 + 0.4 * Math.sin(idlePh + a * 3));
         }
+        sumV = vals.reduce((a, b) => a + b, 0);
     }
+    const avgV = sumV / N_BARS;
 
-    const gap  = specW / BARS;
-    const barW = gap * 0.62;
+    /* ── beat detection → card pulse ── */
+    if (audioPlaying && avgV - prevAvg > 0.16 && !document.getElementById('mainCard').classList.contains('beat')) {
+        const c = document.getElementById('mainCard');
+        c.classList.add('beat');
+        setTimeout(() => c.classList.remove('beat'), 220);
+    }
+    prevAvg = prevAvg * 0.72 + avgV * 0.28;
 
-    for (let i = 0; i < BARS; i++) {
-        const v = vals[i];
-        const x = i * gap + (gap - barW) / 2;
-        const barH = Math.max(2.5, v * specH * 0.90);
-        const y    = specH - barH;
+    /* ── outer diffuse glow ── */
+    const gOuter = spCtx.createRadialGradient(CX, CY, RMIN, CX, CY, RMAX * 1.35);
+    gOuter.addColorStop(0, `rgba(255,112,150,${(avgV * 0.07).toFixed(3)})`);
+    gOuter.addColorStop(0.5, `rgba(181,158,255,${(avgV * 0.04).toFixed(3)})`);
+    gOuter.addColorStop(1, 'transparent');
+    spCtx.fillStyle = gOuter;
+    spCtx.beginPath(); spCtx.arc(CX, CY, RMAX * 1.35, 0, Math.PI * 2); spCtx.fill();
 
-        /* gradient: purple top → rose bottom */
-        const grad = spCtx.createLinearGradient(0, y, 0, specH);
-        if (audioPlaying) {
-            grad.addColorStop(0,   `rgba(167,139,250,${0.55 + v*0.45})`);
-            grad.addColorStop(0.5, `rgba(var(--rr, 255,143,163),${0.6 + v*0.38})`);
-            grad.addColorStop(0.5, `rgba(255,143,163,${0.6 + v*0.38})`);
-            grad.addColorStop(1,   `rgba(255,143,163,0.22)`);
-        } else {
-            grad.addColorStop(0,   'rgba(160,130,240,0.18)');
-            grad.addColorStop(1,   'rgba(255,143,163,0.07)');
-        }
-        spCtx.fillStyle = grad;
-        rBar(spCtx, x, y, barW, barH, 2);
+    /* ── radial bars (rotate by specRot) ── */
+    spCtx.save();
+    spCtx.translate(CX, CY);
+    spCtx.rotate(specRot);
+    for (let i = 0; i < N_BARS; i++) {
+        const angle  = (i / N_BARS) * Math.PI * 2;
+        const v      = vals[i];
+        const barLen = v * (RMAX - RMIN) + 2;
+        const x1 = Math.cos(angle) * RMIN;
+        const y1 = Math.sin(angle) * RMIN;
+        const x2 = Math.cos(angle) * (RMIN + barLen);
+        const y2 = Math.sin(angle) * (RMIN + barLen);
 
-        /* tip glow dot when playing & high amplitude */
-        if (audioPlaying && v > 0.38) {
-            spCtx.beginPath();
-            spCtx.arc(x + barW / 2, y, barW / 2 + 0.5, 0, Math.PI * 2);
-            spCtx.fillStyle = `rgba(255,220,235,${v * 0.65})`;
-            spCtx.fill();
-        }
+        /* color: cycle from rose (0°) through purple (270°) to back */
+        const hue   = audioPlaying ? (335 + v * 45) : (295 + (i / N_BARS) * 85);
+        const light = audioPlaying ? (50 + v * 22) : 55;
+        const alpha = audioPlaying ? (0.38 + v * 0.62) : 0.22;
+
+        spCtx.strokeStyle = `hsla(${hue},100%,${light}%,${alpha})`;
+        spCtx.lineWidth   = audioPlaying ? (1.2 + v * 2.2) : 1.4;
+        spCtx.lineCap     = 'round';
+        spCtx.shadowBlur  = audioPlaying && v > 0.42 ? 7 : 0;
+        spCtx.shadowColor = '#ff7096';
+        spCtx.beginPath(); spCtx.moveTo(x1, y1); spCtx.lineTo(x2, y2); spCtx.stroke();
+    }
+    spCtx.restore();
+
+    /* ── inner ring ── */
+    spCtx.strokeStyle = `rgba(255,112,150,${0.22 + avgV * 0.5})`;
+    spCtx.lineWidth   = 1.2;
+    spCtx.shadowBlur  = 6; spCtx.shadowColor = 'rgba(255,112,150,0.8)';
+    spCtx.beginPath(); spCtx.arc(CX, CY, RMIN, 0, Math.PI * 2); spCtx.stroke();
+    spCtx.shadowBlur  = 0;
+
+    /* ── center orb ── */
+    const orbR  = RMIN * 0.68;
+    const gOrb  = spCtx.createRadialGradient(CX, CY, 0, CX, CY, orbR);
+    gOrb.addColorStop(0,    `rgba(255,230,240,${0.9  + avgV * 0.1})`);
+    gOrb.addColorStop(0.4,  `rgba(255,112,150,${0.7  + avgV * 0.3})`);
+    gOrb.addColorStop(0.85, `rgba(255,70,120,${0.18  + avgV * 0.22})`);
+    gOrb.addColorStop(1,    'transparent');
+    spCtx.fillStyle = gOrb;
+    spCtx.beginPath(); spCtx.arc(CX, CY, orbR * 1.25, 0, Math.PI * 2); spCtx.fill();
+
+    /* center moon emoji when idle */
+    if (!audioPlaying) {
+        spCtx.font = `${Math.round(orbR * 1.1)}px serif`;
+        spCtx.textAlign    = 'center';
+        spCtx.textBaseline = 'middle';
+        spCtx.globalAlpha  = 0.55 + 0.25 * Math.sin(idlePh * 0.8);
+        spCtx.fillText('🌙', CX, CY + 1);
+        spCtx.globalAlpha  = 1;
     }
 
     requestAnimationFrame(specLoop);
 })();
 
-/* resize spectrum after layout paints */
+/* init sizing after layout paints */
 requestAnimationFrame(() => requestAnimationFrame(() => {
     rszSpec();
     new ResizeObserver(() => rszSpec()).observe(specCvs);
 }));
 
-/* ══════════════════════════════════════
-   5. SPARKLE BURST
-══════════════════════════════════════ */
-const SYMS = ['✨','💖','🌸','⭐','💕','🌟','🩷'];
+/* card beat flash (CSS class added by specLoop) */
+const beatStyle = document.createElement('style');
+beatStyle.textContent = `
+.card.beat {
+    box-shadow: 0 24px 70px rgba(0,0,0,0.7),
+                inset 0 1px 0 rgba(255,255,255,0.07),
+                0 0 0 1.5px rgba(255,112,150,0.55),
+                0 0 70px rgba(255,112,150,0.22) !important;
+    transition: box-shadow 0.05s ease;
+}
+`;
+document.head.appendChild(beatStyle);
+
+/* ════════════════════════════════════════════
+   6. SPARKLE BURST
+════════════════════════════════════════════ */
+const SYMS = ['✨','💖','🌸','⭐','💕','🌟','🩷','💫'];
 function spawnSparks(el) {
-    const r = el.getBoundingClientRect();
+    const r  = el.getBoundingClientRect();
     const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-    for (let i = 0; i < 11; i++) {
+    for (let i = 0; i < 12; i++) {
         const sp  = document.createElement('span');
-        const ang = (i / 11) * Math.PI * 2;
-        const d   = Math.random() * 54 + 22;
+        const ang = (i / 12) * Math.PI * 2;
+        const d   = Math.random() * 58 + 22;
         sp.className   = 'spark';
         sp.textContent = SYMS[Math.floor(Math.random() * SYMS.length)];
         sp.style.cssText = `
             left:${cx}px; top:${cy}px;
-            font-size:${Math.random()*7+9}px;
+            font-size:${Math.random()*8+9}px;
             --dx:${(Math.cos(ang)*d).toFixed(1)}px;
             --dy:${(Math.sin(ang)*d).toFixed(1)}px;
         `;
@@ -641,109 +697,124 @@ function spawnSparks(el) {
     }
 }
 
-/* ══════════════════════════════════════
-   6. REJECT BUTTON — HORIZONTAL DODGE
-   Reject slides LEFT or RIGHT of accept,
-   never overlapping it, never clickable.
-══════════════════════════════════════ */
-const btnReject = document.getElementById('btnReject');
-const btnAccept = document.getElementById('btnAccept');
-const btnRow    = document.getElementById('btnRow');
-const hintEl    = document.getElementById('hintEl');
-const teaseEl   = document.getElementById('teaseEl');
-const msgEl     = document.getElementById('msgEl');
+/* ════════════════════════════════════════════
+   7. REJECT BUTTON — HORIZONTAL DODGE
+   ─ First tap: allowed (shows a message)
+   ─ All subsequent attempts: button runs
+   ─ Mobile: document-level capture intercepts
+     ALL touches near reject AFTER first tap
+   ─ Desktop: row mousemove proximity detection
+   ─ 2-thumb scenario: both touches checked
+════════════════════════════════════════════ */
+const btnReject  = document.getElementById('btnReject');
+const btnAccept  = document.getElementById('btnAccept');
+const btnRow     = document.getElementById('btnRow');
+const hintEl     = document.getElementById('hintEl');
+const teaseEl    = document.getElementById('teaseEl');
+const msgEl      = document.getElementById('msgEl');
 
 let noCount   = 0;
-let rSide     = -1;   /* -1 = left of accept, +1 = right of accept */
-let lastTap   = 0;
+let rSide     = -1;    /* current side: -1 = left of accept, +1 = right */
 let dodgeLock = false;
+let lastTap   = 0;
 
-/* Calculate left/right slots relative to btnRow */
-function getSlots() {
+/* Calculate left-slot and right-slot positions */
+function slots() {
     const rowW = btnRow.offsetWidth;
-    const aW   = btnAccept.offsetWidth  || 118;
-    const rW   = btnReject.offsetWidth  || 108;
-    const aL   = (rowW - aW) / 2;   /* accept left edge */
+    const aW   = btnAccept.offsetWidth  || 116;
+    const rW   = btnReject.offsetWidth  || 106;
+    const aL   = (rowW - aW) / 2;   /* accept left edge  */
     const aR   = aL + aW;           /* accept right edge */
-    const gap  = 18;
+    const gap  = 20;
     return {
-        left:  aL - gap - rW,   /* may be negative — slides out left edge */
-        right: aR + gap,        /* right of accept */
+        L: aL - gap - rW,   /* left slot  — may be negative, that's fine */
+        R: aR + gap,        /* right slot */
     };
 }
 
-/* Place reject button on current side */
-function applyRejectPos() {
-    const { left, right } = getSlots();
-    btnReject.style.left = (rSide < 0 ? left : right) + 'px';
+/* Apply position from current rSide */
+function applyPos() {
+    const { L, R } = slots();
+    btnReject.style.left = (rSide < 0 ? L : R) + 'px';
     btnReject.style.top  = '2px';
 }
 
-/* Initialise: wait for layout */
-requestAnimationFrame(() => requestAnimationFrame(() => {
-    applyRejectPos();
-}));
+/* Initialise after layout */
+requestAnimationFrame(() => requestAnimationFrame(() => applyPos()));
 
-/* Dodge: flip side, animate via CSS transition */
+/* Dodge: flip side and animate */
 function dodge() {
     if (dodgeLock) return;
     dodgeLock = true;
     rSide = -rSide;
-    applyRejectPos();
-    setTimeout(() => { dodgeLock = false; }, 240);
+    applyPos();
+    setTimeout(() => { dodgeLock = false; }, 230);
 }
 
-/* Desktop proximity: mousemove over row */
+/* ──────────────────────────────────────────
+   MOBILE PROTECTION — document capture phase
+   After first tap, intercept ALL subsequent
+   touch attempts anywhere near reject button.
+   Also handles 2-finger simultaneous scenario.
+────────────────────────────────────────── */
+document.addEventListener('touchstart', (e) => {
+    if (noCount === 0) return;  /* first tap goes through button's own handler */
+
+    const rr  = btnReject.getBoundingClientRect();
+    const pad = 22;  /* proximity zone — smaller than gap to avoid catching accept */
+
+    for (const t of e.changedTouches) {
+        if (t.clientX > rr.left  - pad && t.clientX < rr.right  + pad &&
+            t.clientY > rr.top   - pad && t.clientY < rr.bottom + pad) {
+            e.preventDefault();   /* kill this touch — no click fires */
+            onNoCount();
+            return;
+        }
+    }
+}, { capture: true, passive: false });
+
+/* ──────────────────────────────────────────
+   DESKTOP — proximity via mousemove on row
+────────────────────────────────────────── */
 btnRow.addEventListener('mousemove', e => {
     const rr = btnReject.getBoundingClientRect();
-    const cx = rr.left + rr.width / 2;
-    const cy = rr.top  + rr.height / 2;
-    const dx = e.clientX - cx;
-    const dy = e.clientY - cy;
-    if (Math.sqrt(dx*dx + dy*dy) < 58) dodge();
+    const cx = rr.left + rr.width / 2, cy = rr.top + rr.height / 2;
+    const dx = e.clientX - cx, dy = e.clientY - cy;
+    if (Math.sqrt(dx*dx + dy*dy) < 60) dodge();
 }, { passive: true });
 
-/* Mobile proximity: touchmove over row */
-btnRow.addEventListener('touchmove', e => {
-    const t  = e.touches[0];
-    const rr = btnReject.getBoundingClientRect();
-    const cx = rr.left + rr.width / 2;
-    const cy = rr.top  + rr.height / 2;
-    const dx = t.clientX - cx;
-    const dy = t.clientY - cy;
-    if (Math.sqrt(dx*dx + dy*dy) < 58) dodge();
-}, { passive: true });
-
-/* Direct tap/click on reject — dodge + count, never fire */
+/* ──────────────────────────────────────────
+   BUTTON pointerdown — handles first tap +
+   any desktop click that sneaks through
+────────────────────────────────────────── */
 btnReject.addEventListener('pointerdown', e => {
     const now = Date.now();
     if (now - lastTap < 320) return;
     lastTap = now;
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault(); e.stopPropagation();
     onNoCount();
 }, { passive: false });
 
 btnReject.addEventListener('click', e => {
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault(); e.stopPropagation();
 }, { passive: false });
 
+/* ── Tease messages ── */
 const TEASE = [
-    "Yah… langsung 'Tidak' dong 😑",
-    "Oke, santai… belum mood ya?",
-    "Atau lagi sok sibuk padahal rebahan? 😏",
-    "Jujur aja deh… kamu lagi scroll sambil bengong.",
-    "Aku hafal sih pola kamu 😌",
-    "Bilangnya 'tidak', tapi masih lanjut klik…",
-    "Lucu sih… kamu kayak gini tiap malam minggu.",
-    "Gak kemana-mana, tapi juga gak mau ngaku 😆",
-    "Padahal sebenernya cuma butuh ditemenin bentar…",
-    "Yaudah deh, aku gak ganggu lagi.",
+    "Yah… langsung 'Tidak' gitu? 😑",
+    "Santai dulu… belum mood nih?",
+    "Sok sibuk padahal rebahan 😏",
+    "Jujur aja deh, kamu bengong kan?",
+    "Aku hafal banget pola kamu 😌",
+    "Bilang 'tidak' tapi masih di sini…",
+    "Lucu sih, tiap malam minggu gini.",
+    "Gak kemana-mana, gak mau ngaku 😆",
+    "Sebenernya cuma butuh ditemenin…",
+    "Yaudah, aku gak ganggu lagi.",
     "Tapi sebelum itu…",
     "Selamat malam minggu ya 🙂",
-    "Jangan terlalu overthinking malam ini.",
-    "Kalau bosen… balik lagi sini aja 😌",
+    "Jangan overthinking ya malam ini.",
+    "Kalau bosen, balik sini aja 😌",
 ];
 
 function onNoCount() {
@@ -753,24 +824,42 @@ function onNoCount() {
         hintEl.classList.add('on');
         btnAccept.classList.add('glowing');
     }
+    const txt = TEASE[Math.min(noCount - 1, TEASE.length - 1)];
     teaseEl.classList.remove('on');
-    teaseEl.textContent = TEASE[Math.min(noCount - 1, TEASE.length - 1)];
+    teaseEl.textContent = txt;
     requestAnimationFrame(() => requestAnimationFrame(() => {
         teaseEl.classList.add('on');
-        setTimeout(() => teaseEl.classList.remove('on'), 3000);
+        setTimeout(() => teaseEl.classList.remove('on'), 3200);
     }));
 }
 
-/* ══════════════════════════════════════
-   7. ACCEPT BUTTON — MULTI-STAGE
-══════════════════════════════════════ */
+/* ════════════════════════════════════════════
+   8. ACCEPT BUTTON — MULTI-STAGE WITH TEXT MORPH
+   Button label changes after each click to
+   match the evolving emotional context.
+════════════════════════════════════════════ */
 let acceptStage = 0;
+
+/* Each stage: message shown + new button label */
 const STAGES = [
-    `Hmm… langsung "Terima"? 😏<br><br>ini refleks… atau emang lagi gabut malam ini ya?`,
-    `Masih lanjut juga 😌<br><br>biasanya orang berhenti di klik pertama…<br>kamu beda sih.`,
-    `Oke… sekarang mulai keliatan 😏<br><br>kamu bukan cuma iseng…<br>kamu emang butuh temen kan malam ini?`,
-    `Yaudah… aku ngerti kok 😌<br><br><strong>malam minggu kamu sekarang ada yang nemenin.</strong><br><br>satu klik lagi ya.`,
+    {
+        msg: `Hmm… langsung "Terima"? 😏<br><br>ini refleks… atau emang lagi gabut malam ini ya?`,
+        btn: `Lanjut? 🌙`,
+    },
+    {
+        msg: `Masih lanjut juga 😌<br><br>biasanya orang berhenti di klik pertama…<br>kamu beda sih.`,
+        btn: `Masih mau? 💫`,
+    },
+    {
+        msg: `Oke… sekarang mulai keliatan 😏<br><br>kamu bukan cuma iseng…<br>kamu emang butuh temen kan malam ini?`,
+        btn: `Iya sih… 😌`,
+    },
+    {
+        msg: `Yaudah… aku ngerti kok 😌<br><br><strong>malam minggu kamu sekarang ada yang nemenin.</strong><br><br>satu klik lagi ya.`,
+        btn: `Iya… 🤍`,
+    },
 ];
+
 const SUCCESS = `
 Nah kan… akhirnya ngaku juga 😏<br><br>
 Dari tadi bilang 'tidak', tapi masih stay di sini…<br>
@@ -785,73 +874,83 @@ btnAccept.addEventListener('click', () => {
     spawnSparks(btnAccept);
 
     if (acceptStage < STAGES.length) {
-        msgEl.innerHTML = STAGES[acceptStage++];
-        const card = document.querySelector('.card');
-        card.style.animation = 'none';
-        void card.offsetWidth;
-        card.style.animation = 'fadeUp 0.4s ease';
+        const { msg, btn } = STAGES[acceptStage++];
+        msgEl.innerHTML = msg;
+
+        /* morph button label with a quick scale animation */
+        btnAccept.style.transform = 'translateX(-50%) scale(0.88)';
+        btnAccept.style.transition = 'transform 0.15s ease';
+        setTimeout(() => {
+            btnAccept.textContent = btn;
+            btnAccept.style.transform = 'translateX(-50%) scale(1.06)';
+            setTimeout(() => {
+                btnAccept.style.transform = 'translateX(-50%) scale(1)';
+            }, 120);
+        }, 80);
+
+        /* re-entrance animation on message */
+        const initEl = document.getElementById('init');
+        initEl.style.animation = 'none';
+        void initEl.offsetWidth;
+        initEl.style.animation = 'fadeSlideUp 0.38s ease both';
+
     } else {
-        document.getElementById('init').style.display    = 'none';
+        /* SUCCESS */
+        document.getElementById('init').style.display = 'none';
         document.getElementById('success').classList.add('on');
 
         /* confetti */
-        const clrs = ['#ff8fa3','#ffb3c1','#a78bfa','#67e8a8','#ffd54f','#f9a8d4'];
-        for (let i = 0; i < 65; i++) {
+        const clrs = ['#ff7096','#ffb3c1','#b59eff','#67e8a8','#ffd54f','#f9a8d4'];
+        for (let i = 0; i < 70; i++) {
             const el  = document.createElement('div');
             const clr = clrs[Math.floor(Math.random() * clrs.length)];
-            const sz  = Math.random() * 7 + 4;
+            const sz  = Math.random() * 8 + 4;
             el.style.cssText = `
                 position:fixed; pointer-events:none; z-index:998;
                 width:${sz}px; height:${sz}px;
                 background:${clr};
                 border-radius:${Math.random() > 0.45 ? '50%' : '3px'};
-                left:${Math.random()*100}vw; top:${Math.random()*100}vh;
+                left:${Math.random()*100}vw; top:${Math.random()*40}vh;
             `;
             document.body.appendChild(el);
-            const ang = Math.random() * Math.PI * 2, d = Math.random() * 200 + 80;
+            const ang = Math.random() * Math.PI * 2;
+            const d   = Math.random() * 220 + 80;
             el.animate([
-                { transform: 'translate(0,0) scale(1)', opacity: 1 },
-                { transform: `translate(${Math.cos(ang)*d}px,${Math.sin(ang)*d}px) scale(0)`, opacity: 0 },
-            ], { duration: 1200 + Math.random() * 500, easing: 'cubic-bezier(0.25,1,0.5,1)', fill: 'forwards' });
-            setTimeout(() => el.remove(), 1900);
+                { transform: 'translate(0,0) scale(1) rotate(0deg)', opacity: 1 },
+                { transform: `translate(${Math.cos(ang)*d}px,${Math.sin(ang)*d + 180}px) scale(0) rotate(${Math.random()*360}deg)`, opacity: 0 },
+            ], { duration: 1300 + Math.random() * 600, easing: 'cubic-bezier(0.25,1,0.5,1)', fill: 'forwards' });
+            setTimeout(() => el.remove(), 2000);
         }
 
-        setTimeout(() => typeHTML(SUCCESS, document.getElementById('successMsg'), 22), 500);
+        setTimeout(() => typeHTML(SUCCESS, document.getElementById('successMsg'), 22), 550);
     }
 });
 
-/* ══════════════════════════════════════
-   8. TYPEWRITER (HTML-safe)
-══════════════════════════════════════ */
+/* ════════════════════════════════════════════
+   9. TYPEWRITER — HTML-safe
+════════════════════════════════════════════ */
 function typeHTML(html, el, speed = 24) {
-    el.innerHTML = '';
-    let i = 0;
+    el.innerHTML = ''; let i = 0;
     function step() {
         if (i >= html.length) return;
         if (html[i] === '<') {
             const end = html.indexOf('>', i);
-            if (end !== -1) {
-                el.innerHTML = html.substring(0, end + 1);
-                i = end + 1;
-                step();
-                return;
-            }
+            if (end !== -1) { el.innerHTML = html.substring(0, end+1); i = end+1; step(); return; }
         }
-        el.innerHTML = html.substring(0, i + 1);
-        i++;
+        el.innerHTML = html.substring(0, i+1); i++;
         setTimeout(step, speed);
     }
     step();
 }
 
-/* ══════════════════════════════════════
-   9. PREVENT DOUBLE-TAP ZOOM
-══════════════════════════════════════ */
-let lastTouch = 0;
+/* ════════════════════════════════════════════
+   10. PREVENT DOUBLE-TAP ZOOM
+════════════════════════════════════════════ */
+let lastT = 0;
 document.addEventListener('touchend', e => {
     const now = Date.now();
-    if (now - lastTouch < 300) e.preventDefault();
-    lastTouch = now;
+    if (now - lastT < 300) e.preventDefault();
+    lastT = now;
 }, { passive: false });
 
 </script>
